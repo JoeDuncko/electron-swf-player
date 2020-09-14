@@ -76,6 +76,7 @@
     "style-loader": "^1.2.1"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "nw-flash-trust": "0.3.0"
   }
 }
