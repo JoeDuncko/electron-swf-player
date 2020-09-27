@@ -58,7 +58,7 @@ app.on("ready", function () {
   var isTrusted = trustManager.isTrusted(
     `file:///Users/joeduncko/Downloads/f/BeepBeep.swf`
   );
-  console.log("is trusted", isTrusted);
+  // console.log("is trusted", isTrusted);
 
   mainWindow = new BrowserWindow({
     width: 800,
@@ -70,22 +70,16 @@ app.on("ready", function () {
     },
   });
 
-  // and load the index.html of the app.
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  // mainWindow.loadURL(
-  //   "http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html"
-  // );
-
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
+//
+  dialog.showOpenDialog({ properties: ["openFile"] }).then((test) => {
+    // adds given filepath to trusted locations
+    // paths must be absolute
+    // trustManager.add(`file:///Users/joeduncko/Downloads/f/BeepBeep.swf`);
 
-  // dialog.showOpenDialog({ properties: ["openFile"] }).then((test) => {
-  //   // adds given filepath to trusted locations
-  //   // paths must be absolute
-  //   // trustManager.add(`file:///Users/joeduncko/Downloads/f/BeepBeep.swf`);
-  //   mainWindow.webContents.send("change", `file://${test.filePaths[0]}`);
-  //   // mainWindow.webContents.send("change", `https://i.4cdn.org/f/HNNNNNG.swf`)
-  // });
+    mainWindow.loadURL(`file://${test.filePaths[0]}`);
+  });
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
