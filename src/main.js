@@ -1,6 +1,115 @@
-const { app, BrowserWindow, dialog, protocol } = require("electron");
+const { app, Menu, BrowserWindow, dialog, protocol } = require("electron");
 const path = require("path");
 var flashTrust = require("nw-flash-trust");
+
+const isMac = process.platform === "darwin";
+
+const template = [
+  // { role: 'appMenu' }
+  ...(isMac
+    ? [
+        {
+          label: app.name,
+          submenu: [
+            { role: "about" },
+            { type: "separator" },
+            { role: "services" },
+            { type: "separator" },
+            { role: "hide" },
+            { role: "hideothers" },
+            { role: "unhide" },
+            { type: "separator" },
+            { role: "quit" },
+          ],
+        },
+      ]
+    : []),
+  // { role: 'fileMenu' }
+  {
+    label: "File",
+    submenu: [
+      {
+        label: "Open",
+        click: function () {
+          showOpenDialog();
+        },
+      },
+      isMac ? { role: "close" } : { role: "quit" },
+    ],
+  },
+  // { role: 'editMenu' }
+  {
+    label: "Edit",
+    submenu: [
+      { role: "undo" },
+      { role: "redo" },
+      { type: "separator" },
+      { role: "cut" },
+      { role: "copy" },
+      { role: "paste" },
+      ...(isMac
+        ? [
+            { role: "pasteAndMatchStyle" },
+            { role: "delete" },
+            { role: "selectAll" },
+            { type: "separator" },
+            {
+              label: "Speech",
+              submenu: [{ role: "startspeaking" }, { role: "stopspeaking" }],
+            },
+          ]
+        : [{ role: "delete" }, { type: "separator" }, { role: "selectAll" }]),
+    ],
+  },
+  // { role: 'viewMenu' }
+  {
+    label: "View",
+    submenu: [
+      { role: "reload" },
+      { role: "forcereload" },
+      { role: "toggledevtools" },
+      { type: "separator" },
+      { role: "resetzoom" },
+      { role: "zoomin" },
+      { role: "zoomout" },
+      { type: "separator" },
+      { role: "togglefullscreen" },
+    ],
+  },
+  // { role: 'windowMenu' }
+  {
+    label: "Window",
+    submenu: [
+      { role: "minimize" },
+      { role: "zoom" },
+      ...(isMac
+        ? [
+            { type: "separator" },
+            { role: "front" },
+            { type: "separator" },
+            { role: "window" },
+          ]
+        : [{ role: "close" }]),
+    ],
+  },
+  {
+    role: "help",
+    submenu: [
+      {
+        label: "Learn More",
+        click: async () => {
+          const { shell } = require("electron");
+          await shell.openExternal("https://electronjs.org");
+        },
+      },
+    ],
+  },
+];
+
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
+
+console.log("test", Menu.getApplicationMenu());
 
 // appName could be any globally unique string containing only
 // big and small letters, numbers and chars "-._"
@@ -47,6 +156,16 @@ app.commandLine.appendSwitch("ppapi-flash-path", ppapi_flash_path);
 // Specify flash version, for example, v18.0.0.203
 app.commandLine.appendSwitch("ppapi-flash-version", "18.0.0.203");
 
+const showOpenDialog = () => {
+  dialog.showOpenDialog({ properties: ["openFile"] }).then((test) => {
+    // adds given filepath to trusted locations
+    // paths must be absolute
+    // trustManager.add(`file:///Users/joeduncko/Downloads/f/BeepBeep.swf`);
+
+      mainWindow.loadURL(`file://${test.filePaths[0]}`);
+    });
+}
+
 app.on("ready", function () {
   protocol.registerFileProtocol("file", (request, callback) => {
     const pathname = decodeURI(request.url.replace("file:///", ""));
@@ -70,16 +189,7 @@ app.on("ready", function () {
     },
   });
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
-//
-  dialog.showOpenDialog({ properties: ["openFile"] }).then((test) => {
-    // adds given filepath to trusted locations
-    // paths must be absolute
-    // trustManager.add(`file:///Users/joeduncko/Downloads/f/BeepBeep.swf`);
-
-    mainWindow.loadURL(`file://${test.filePaths[0]}`);
-  });
+  showOpenDialog();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
