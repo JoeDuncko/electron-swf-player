@@ -166,7 +166,7 @@ const showOpenDialog = () => {
     });
 }
 
-app.on("ready", function () {
+const createWindow = () => {
   protocol.registerFileProtocol("file", (request, callback) => {
     const pathname = decodeURI(request.url.replace("file:///", ""));
     callback(pathname);
@@ -190,6 +190,10 @@ app.on("ready", function () {
   });
 
   showOpenDialog();
+}
+
+app.on("ready", function () {
+  createWindow();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
