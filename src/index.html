@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World!</title>
+
+    <style>
+      webview {
+        height: 400px;
+      }
+      p {
+        color: blue;
+      }
+    </style>
+
+    <script>
+      const { ipcRenderer } = require("electron");
+
+      ipcRenderer.on("change", (event, data) => {
+        console.log("change", data);
+
+        document.getElementById("embed").src = data;
+      });
+    </script>
+  </head>
+  <body>
+    <h1>💖 Hello World!</h1>
+    <p>Welcome to your Electron application.</p>
+    <embed id="embed" src="file:///Users/joeduncko/Downloads/f/BeepBeep.swf" width="550" height="400"> </embed>
+    <!-- <embed id="embed" src="https://i.4cdn.org/f/HNNNNNG.swf" width="550" height="400"> </embed> -->
+    <!-- <img id="embed" src="" /> -->
+  </body>
+</html>
