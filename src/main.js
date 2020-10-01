@@ -1,6 +1,6 @@
 const { app, Menu, BrowserWindow, dialog, protocol } = require("electron");
 const path = require("path");
-var flashTrust = require("nw-flash-trust");
+// var flashTrust = require("nw-flash-trust");
 
 const isMac = process.platform === "darwin";
 
@@ -115,12 +115,10 @@ console.log("test", Menu.getApplicationMenu());
 // big and small letters, numbers and chars "-._"
 // It specifies name of file where trusted paths will be stored.
 // Best practice is to feed it with "name" value from your package.json file.
-var appName = "myApp";
+// var appName = "myApp";
 
 // Initialization and parsing config file for given appName (if already exists).
-var trustManager = flashTrust.initSync(appName);
-
-let mainWindow;
+// var trustManager = flashTrust.initSync(appName);
 
 app.on("window-all-closed", function () {
   if (process.platform != "darwin") app.quit();
@@ -156,15 +154,23 @@ app.commandLine.appendSwitch("ppapi-flash-path", ppapi_flash_path);
 // Specify flash version, for example, v18.0.0.203
 app.commandLine.appendSwitch("ppapi-flash-version", "18.0.0.203");
 
+let dialogIsOpen = false;
+
 const showOpenDialog = () => {
-  dialog.showOpenDialog({ properties: ["openFile"] }).then((test) => {
+  dialogIsOpen = true;
+  dialog.showOpenDialog({ properties: ["openFile"] }).then((event) => {
+    dialogIsOpen = false;
     // adds given filepath to trusted locations
     // paths must be absolute
     // trustManager.add(`file:///Users/joeduncko/Downloads/f/BeepBeep.swf`);
 
-      mainWindow.loadURL(`file://${test.filePaths[0]}`);
-    });
-}
+    if (event.filePaths[0]) {
+      const newWindow = createWindow();
+
+      newWindow.loadURL(`file://${event.filePaths[0]}`);
+    }
+  });
+};
 
 const createWindow = () => {
   protocol.registerFileProtocol("file", (request, callback) => {
@@ -172,14 +178,14 @@ const createWindow = () => {
     callback(pathname);
   });
 
-  trustManager.add(`file:///Users/joeduncko/Downloads/f/BeepBeep.swf`);
+  // trustManager.add(`file:///Users/joeduncko/Downloads/f/BeepBeep.swf`);
 
-  var isTrusted = trustManager.isTrusted(
-    `file:///Users/joeduncko/Downloads/f/BeepBeep.swf`
-  );
+  // var isTrusted = trustManager.isTrusted(
+  //   `file:///Users/joeduncko/Downloads/f/BeepBeep.swf`
+  // );
   // console.log("is trusted", isTrusted);
 
-  mainWindow = new BrowserWindow({
+  return new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -188,12 +194,21 @@ const createWindow = () => {
       webSecurity: false,
     },
   });
-
-  showOpenDialog();
-}
+};
 
 app.on("ready", function () {
-  createWindow();
+  // Only open the dialog if it's not open yet
+  if (!dialogIsOpen) {
+    showOpenDialog();
+  }
+
+  app.on("open-file", (event, file) => {
+    event.preventDefault();
+
+    const newWindow = createWindow();
+
+    newWindow.loadURL(`file://${file}`);
+  });
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -209,7 +224,7 @@ app.on("activate", () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    showOpenDialog();
   }
 });
 
