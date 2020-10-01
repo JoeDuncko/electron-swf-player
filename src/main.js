@@ -132,6 +132,10 @@ if (require("electron-squirrel-startup")) {
 
 let ppapi_flash_path;
 
+let pathToOpen = null;
+
+let appIsReady = false;
+
 // Specify flash path.
 // On Windows, it might be /path/to/pepflashplayer.dll
 // On OS X, /path/to/PepperFlashPlayer.plugin
@@ -196,19 +200,28 @@ const createWindow = () => {
   });
 };
 
-app.on("ready", function () {
-  // Only open the dialog if it's not open yet
-  if (!dialogIsOpen) {
-    showOpenDialog();
-  }
+app.on("open-file", (event, file) => {
+  event.preventDefault();
 
-  app.on("open-file", (event, file) => {
-    event.preventDefault();
-
+  if (appIsReady) {
     const newWindow = createWindow();
 
     newWindow.loadURL(`file://${file}`);
-  });
+  } else {
+    pathToOpen = file;
+  }
+});
+
+app.on("ready", function () {
+  appIsReady = true;
+  // Only open the dialog if it's not open yet
+  if (!pathToOpen) {
+    showOpenDialog();
+  } else {
+    const newWindow = createWindow();
+
+    newWindow.loadURL(`file://${pathToOpen}`);
+  }
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
