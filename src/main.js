@@ -1,111 +1,10 @@
-const { app, Menu, BrowserWindow, dialog, protocol } = require("electron");
+const { showOpenDialog, createWindow } = require("./helpers");
+const { app, Menu, BrowserWindow } = require("electron");
 const path = require("path");
 
-const isMac = process.platform === "darwin";
+const { menuTemplate } = require("./menuTemplate");
 
-const template = [
-  // { role: 'appMenu' }
-  ...(isMac
-    ? [
-        {
-          label: app.name,
-          submenu: [
-            { role: "about" },
-            { type: "separator" },
-            { role: "services" },
-            { type: "separator" },
-            { role: "hide" },
-            { role: "hideothers" },
-            { role: "unhide" },
-            { type: "separator" },
-            { role: "quit" },
-          ],
-        },
-      ]
-    : []),
-  // { role: 'fileMenu' }
-  {
-    label: "File",
-    submenu: [
-      {
-        label: "Open",
-        click: function () {
-          showOpenDialog();
-        },
-      },
-      isMac ? { role: "close" } : { role: "quit" },
-    ],
-  },
-  // { role: 'editMenu' }
-  {
-    label: "Edit",
-    submenu: [
-      { role: "undo" },
-      { role: "redo" },
-      { type: "separator" },
-      { role: "cut" },
-      { role: "copy" },
-      { role: "paste" },
-      ...(isMac
-        ? [
-            { role: "pasteAndMatchStyle" },
-            { role: "delete" },
-            { role: "selectAll" },
-            { type: "separator" },
-            {
-              label: "Speech",
-              submenu: [{ role: "startspeaking" }, { role: "stopspeaking" }],
-            },
-          ]
-        : [{ role: "delete" }, { type: "separator" }, { role: "selectAll" }]),
-    ],
-  },
-  // { role: 'viewMenu' }
-  {
-    label: "View",
-    submenu: [
-      { role: "reload" },
-      { role: "forcereload" },
-      { role: "toggledevtools" },
-      { type: "separator" },
-      { role: "resetzoom" },
-      { role: "zoomin" },
-      { role: "zoomout" },
-      { type: "separator" },
-      { role: "togglefullscreen" },
-    ],
-  },
-  // { role: 'windowMenu' }
-  {
-    label: "Window",
-    submenu: [
-      { role: "minimize" },
-      { role: "zoom" },
-      ...(isMac
-        ? [
-            { type: "separator" },
-            { role: "front" },
-            { type: "separator" },
-            { role: "window" },
-          ]
-        : [{ role: "close" }]),
-    ],
-  },
-  {
-    role: "help",
-    submenu: [
-      {
-        label: "Learn More",
-        click: async () => {
-          const { shell } = require("electron");
-          await shell.openExternal("https://electronjs.org");
-        },
-      },
-    ],
-  },
-];
-
-const menu = Menu.buildFromTemplate(template);
+const menu = Menu.buildFromTemplate(menuTemplate);
 Menu.setApplicationMenu(menu);
 
 app.on("window-all-closed", function () {
@@ -143,33 +42,6 @@ app.commandLine.appendSwitch("ppapi-flash-path", ppapi_flash_path);
 
 // Specify flash version, for example, v18.0.0.203
 app.commandLine.appendSwitch("ppapi-flash-version", "32.0.0.433");
-
-const showOpenDialog = () => {
-  dialog.showOpenDialog({ properties: ["openFile"] }).then((event) => {
-    if (event.filePaths[0]) {
-      const newWindow = createWindow();
-
-      newWindow.loadURL(`file://${event.filePaths[0]}`);
-    }
-  });
-};
-
-const createWindow = () => {
-  protocol.registerFileProtocol("file", (request, callback) => {
-    const pathname = decodeURI(request.url.replace("file:///", ""));
-    callback(pathname);
-  });
-
-  return new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      plugins: true,
-      nodeIntegration: true,
-      webSecurity: false,
-    },
-  });
-};
 
 app.on("open-file", (event, file) => {
   event.preventDefault();
