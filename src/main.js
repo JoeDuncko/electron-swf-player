@@ -1,6 +1,5 @@
 const { app, Menu, BrowserWindow, dialog, protocol } = require("electron");
 const path = require("path");
-// var flashTrust = require("nw-flash-trust");
 
 const isMac = process.platform === "darwin";
 
@@ -109,17 +108,6 @@ const template = [
 const menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);
 
-console.log("test", Menu.getApplicationMenu());
-
-// appName could be any globally unique string containing only
-// big and small letters, numbers and chars "-._"
-// It specifies name of file where trusted paths will be stored.
-// Best practice is to feed it with "name" value from your package.json file.
-// var appName = "myApp";
-
-// Initialization and parsing config file for given appName (if already exists).
-// var trustManager = flashTrust.initSync(appName);
-
 app.on("window-all-closed", function () {
   if (process.platform != "darwin") app.quit();
 });
@@ -151,23 +139,13 @@ if (process.platform == "win32") {
   );
 }
 
-console.log("__dirname", __dirname);
-
 app.commandLine.appendSwitch("ppapi-flash-path", ppapi_flash_path);
 
 // Specify flash version, for example, v18.0.0.203
-app.commandLine.appendSwitch("ppapi-flash-version", "18.0.0.203");
-
-let dialogIsOpen = false;
+app.commandLine.appendSwitch("ppapi-flash-version", "32.0.0.433");
 
 const showOpenDialog = () => {
-  dialogIsOpen = true;
   dialog.showOpenDialog({ properties: ["openFile"] }).then((event) => {
-    dialogIsOpen = false;
-    // adds given filepath to trusted locations
-    // paths must be absolute
-    // trustManager.add(`file:///Users/joeduncko/Downloads/f/BeepBeep.swf`);
-
     if (event.filePaths[0]) {
       const newWindow = createWindow();
 
@@ -181,13 +159,6 @@ const createWindow = () => {
     const pathname = decodeURI(request.url.replace("file:///", ""));
     callback(pathname);
   });
-
-  // trustManager.add(`file:///Users/joeduncko/Downloads/f/BeepBeep.swf`);
-
-  // var isTrusted = trustManager.isTrusted(
-  //   `file:///Users/joeduncko/Downloads/f/BeepBeep.swf`
-  // );
-  // console.log("is trusted", isTrusted);
 
   return new BrowserWindow({
     width: 800,
@@ -240,6 +211,3 @@ app.on("activate", () => {
     showOpenDialog();
   }
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
