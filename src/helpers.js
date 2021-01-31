@@ -6,6 +6,11 @@ const showOpenDialog = () => {
       const newWindow = createWindow();
 
       newWindow.loadURL(`file://${event.filePaths[0]}`);
+
+      const contents = newWindow.webContents;
+      contents.on("did-finish-load", () => {
+        contents.insertCSS("html, body { height: 100vh; width: 100vw; }");
+      });
     }
   });
 };
