@@ -2,7 +2,7 @@
   "name": "electron-swf-player",
   "productName": "electron-swf-player",
   "version": "0.1.0",
-  "description": "A simple, modern Adobe Flash swf player built on Electron",
+  "description": "A simple, modern Adobe Flash .swf player built on Electron",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -21,6 +21,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
+        "icon": "icons/electron-swf-player",
         "extendInfo": "Info.plist"
       },
       "makers": [

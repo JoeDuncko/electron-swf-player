@@ -10,7 +10,7 @@
 					<string>swf</string>
 				</array>
 				<key>CFBundleTypeIconFile</key>
-				<string>lightning.icns</string>
+				<string>icons/electron-swf-player.icns</string>
 				<key>CFBundleTypeName</key>
 				<string>Adobe Flash</string>
 				<key>CFBundleTypeRole</key>
