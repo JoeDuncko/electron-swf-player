@@ -2,6 +2,8 @@
 
 A simple, modern Adobe Flash .swf player built on Electron.
 
+It uses [PepperFlashPlayer](https://wiki.debian.org/PepperFlashPlayer), the Flash player Chrome used to use, under the hood.
+
 ## Installing
 
 - Download the correct version of the app for your platform from [the Releases page](https://github.com/JoeDuncko/electron-swf-player/releases).
