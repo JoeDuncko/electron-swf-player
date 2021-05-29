@@ -9,10 +9,9 @@
   },
   "scripts": {
     "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "make-win": "electron-forge make --arch ia32,x64",
-    "publish": "electron-forge publish",
+    "generate-icons": "electron-icon-builder --input=./icons-src/electron-swf-player-macos-icon.png --output=./",
+    "make": "npm run generate-icons; electron-forge make",
+    "make-win": "npm run generate-icons; electron-forge make --arch ia32,x64",
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],
@@ -24,7 +23,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "icons/electron-swf-player",
+        "icon": "icons/mac/icon",
         "extendInfo": "Info.plist"
       },
       "makers": [
@@ -58,6 +57,7 @@
     "@electron-forge/maker-squirrel": "6.0.0-beta.54",
     "@electron-forge/maker-zip": "6.0.0-beta.54",
     "electron": "11.2.1",
+    "electron-icon-builder": "^2.0.1",
     "eslint": "^7.19.0",
     "node-loader": "^1.0.2",
     "style-loader": "^2.0.0"

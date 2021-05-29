@@ -19,6 +19,12 @@ Install `node.js`, probably via your package manager.
 
 ## Building
 
+### Generating icons
+
+- `npm run generate-icons`
+
+Currently all platforms use the macOS icon.
+
 ### MacOS
 
 - Be on a Mac
