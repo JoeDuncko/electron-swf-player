@@ -3,6 +3,7 @@
   "productName": "electron-swf-player",
   "version": "0.1.0",
   "description": "A simple, modern Adobe Flash .swf player built on Electron",
+  "repository": "github:JoeDuncko/electron-swf-player",
   "main": "src/main.js",
   "engines": {
     "node": "14.x"
