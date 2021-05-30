@@ -13,7 +13,7 @@
     "generate-icons": "electron-icon-builder --input=./icons-src/electron-swf-player-macos-icon.png --output=./",
     "make": "npm run generate-icons; electron-forge make",
     "make-win": "npm run generate-icons; electron-forge make --arch ia32,x64",
-    "lint": "echo \"No linting configured\""
+    "lint": "eslint src/**/*.js && prettier --write src/**/*.js"
   },
   "keywords": [],
   "author": {
@@ -52,14 +52,15 @@
     }
   },
   "devDependencies": {
-    "@electron-forge/cli": "6.0.0-beta.54",
-    "@electron-forge/maker-deb": "6.0.0-beta.54",
-    "@electron-forge/maker-rpm": "6.0.0-beta.54",
-    "@electron-forge/maker-squirrel": "6.0.0-beta.54",
-    "@electron-forge/maker-zip": "6.0.0-beta.54",
+    "@electron-forge/cli": "6.0.0-beta.57",
+    "@electron-forge/maker-deb": "6.0.0-beta.57",
+    "@electron-forge/maker-rpm": "6.0.0-beta.57",
+    "@electron-forge/maker-squirrel": "6.0.0-beta.57",
+    "@electron-forge/maker-zip": "6.0.0-beta.57",
     "electron": "11.2.1",
     "electron-icon-builder": "^2.0.1",
-    "eslint": "^7.19.0"
+    "eslint": "^7.27.0",
+    "prettier": "^2.3.0"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
