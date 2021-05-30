@@ -60,8 +60,7 @@
     "electron": "11.2.1",
     "electron-icon-builder": "^2.0.1",
     "eslint": "^7.19.0",
-    "node-loader": "^1.0.2",
-    "style-loader": "^2.0.0"
+    "node-loader": "^1.0.2"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
