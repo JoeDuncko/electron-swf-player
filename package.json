@@ -57,13 +57,13 @@
     "@electron-forge/maker-rpm": "6.0.0-beta.57",
     "@electron-forge/maker-squirrel": "6.0.0-beta.57",
     "@electron-forge/maker-zip": "6.0.0-beta.57",
-    "electron": "11.2.1",
+    "electron": "^11.4.7 ",
     "electron-icon-builder": "^2.0.1",
     "eslint": "^7.27.0",
     "prettier": "^2.3.0"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "nw-flash-trust": "0.3.0"
+    "nw-flash-trust": "^0.3.0"
   }
 }
