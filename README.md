@@ -8,7 +8,7 @@ It uses [PepperFlashPlayer](https://wiki.debian.org/PepperFlashPlayer), the Flas
 
 - Download the correct version of the app for your platform from [the Releases page](https://github.com/JoeDuncko/electron-swf-player/releases).
 
-Currently only tested on Intel Macs. Builds for other platforms coming soon.
+Currently only tested on Intel Macs and Windows 10. Builds for other platforms coming soon.
 
 ## Developing
 
