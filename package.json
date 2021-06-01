@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "electron-forge start",
-    "generate-icons": "electron-icon --flatten --input=./icons-src/electron-swf-player-macos-icon.png --output=./",
+    "generate-icons": "electron-icon-builder --flatten --input=./icons-src/electron-swf-player-macos-icon.png --output=./",
     "make": "npm run generate-icons && electron-forge make",
     "lint": "eslint src/**/*.js && prettier --write src/**/*.js"
   },
