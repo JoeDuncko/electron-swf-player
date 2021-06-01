@@ -10,9 +10,8 @@
   },
   "scripts": {
     "start": "electron-forge start",
-    "generate-icons": "electron-icon-builder --input=./icons-src/electron-swf-player-macos-icon.png --output=./",
-    "make": "npm run generate-icons; electron-forge make",
-    "make-win": "npm run generate-icons; electron-forge make --arch ia32,x64",
+    "generate-icons-mac": "electron-icon --flatten --input=./icons-src/electron-swf-player-macos-icon.png --output=./",
+    "make": "npm run generate-icons && electron-forge make",
     "lint": "eslint src/**/*.js && prettier --write src/**/*.js"
   },
   "keywords": [],
@@ -24,7 +23,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "icons/mac/icon",
+        "icon": "icons/icon",
         "extendInfo": "Info.plist"
       },
       "makers": [
