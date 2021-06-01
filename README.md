@@ -32,7 +32,8 @@ Currently all platforms use the macOS icon.
 
 ### Windows
 
-TBD
+- Be on a PC
+- `npm run make`
 
 ### Linux
 
