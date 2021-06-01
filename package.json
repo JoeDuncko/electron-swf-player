@@ -53,7 +53,9 @@
   "build": {
     "fileAssociations": {
       "ext": "swf",
-      "name": "Adobe Flash"
+      "name": "Adobe Flash",
+      "role": "Viewer",
+      "perMachine": true
     }
   },
   "devDependencies": {
