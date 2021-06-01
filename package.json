@@ -50,6 +50,12 @@
       ]
     }
   },
+  "build": {
+    "fileAssociations": {
+      "ext": "swf",
+      "name": "Adobe Flash"
+    }
+  },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.57",
     "@electron-forge/maker-deb": "6.0.0-beta.57",
