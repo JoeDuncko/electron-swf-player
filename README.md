@@ -1,3 +1,7 @@
+# ABANDONED, DO NOT USE
+
+Instead, I suggest trying [ruffle, the Flash Player emulator](https://ruffle.rs/demo/) instead.
+
 # electron-swf-player
 
 A simple, modern Adobe Flash .swf player built on Electron.
